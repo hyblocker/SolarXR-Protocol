@@ -3170,7 +3170,8 @@ struct ModelToggles FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_FORCE_ARMS_FROM_HMD = 10,
     VT_FLOOR_CLIP = 12,
     VT_SKATING_CORRECTION = 14,
-    VT_VIVE_EMULATION = 16
+    VT_VIVE_EMULATION = 16,
+    VT_I_POSE = 18
   };
   flatbuffers::Optional<bool> extended_spine() const {
     return GetOptional<uint8_t, bool>(VT_EXTENDED_SPINE);
@@ -3193,6 +3194,9 @@ struct ModelToggles FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   flatbuffers::Optional<bool> vive_emulation() const {
     return GetOptional<uint8_t, bool>(VT_VIVE_EMULATION);
   }
+  flatbuffers::Optional<bool> i_pose() const {
+    return GetOptional<uint8_t, bool>(VT_I_POSE);
+  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint8_t>(verifier, VT_EXTENDED_SPINE, 1) &&
@@ -3202,6 +3206,7 @@ struct ModelToggles FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<uint8_t>(verifier, VT_FLOOR_CLIP, 1) &&
            VerifyField<uint8_t>(verifier, VT_SKATING_CORRECTION, 1) &&
            VerifyField<uint8_t>(verifier, VT_VIVE_EMULATION, 1) &&
+           VerifyField<uint8_t>(verifier, VT_I_POSE, 1) &&
            verifier.EndTable();
   }
 };
@@ -3231,6 +3236,9 @@ struct ModelTogglesBuilder {
   void add_vive_emulation(bool vive_emulation) {
     fbb_.AddElement<uint8_t>(ModelToggles::VT_VIVE_EMULATION, static_cast<uint8_t>(vive_emulation));
   }
+  void add_i_pose(bool i_pose) {
+    fbb_.AddElement<uint8_t>(ModelToggles::VT_I_POSE, static_cast<uint8_t>(i_pose));
+  }
   explicit ModelTogglesBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -3250,8 +3258,10 @@ inline flatbuffers::Offset<ModelToggles> CreateModelToggles(
     flatbuffers::Optional<bool> force_arms_from_hmd = flatbuffers::nullopt,
     flatbuffers::Optional<bool> floor_clip = flatbuffers::nullopt,
     flatbuffers::Optional<bool> skating_correction = flatbuffers::nullopt,
-    flatbuffers::Optional<bool> vive_emulation = flatbuffers::nullopt) {
+    flatbuffers::Optional<bool> vive_emulation = flatbuffers::nullopt,
+    flatbuffers::Optional<bool> i_pose = flatbuffers::nullopt) {
   ModelTogglesBuilder builder_(_fbb);
+  if(i_pose) { builder_.add_i_pose(*i_pose); }
   if(vive_emulation) { builder_.add_vive_emulation(*vive_emulation); }
   if(skating_correction) { builder_.add_skating_correction(*skating_correction); }
   if(floor_clip) { builder_.add_floor_clip(*floor_clip); }

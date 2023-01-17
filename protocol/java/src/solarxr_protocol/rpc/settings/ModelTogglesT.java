@@ -15,6 +15,7 @@ public class ModelTogglesT {
   private Boolean floorClip;
   private Boolean skatingCorrection;
   private Boolean viveEmulation;
+  private Boolean iPose;
 
   public Boolean getExtendedSpine() { return extendedSpine; }
 
@@ -44,6 +45,10 @@ public class ModelTogglesT {
 
   public void setViveEmulation(Boolean viveEmulation) { this.viveEmulation = viveEmulation; }
 
+  public Boolean getIPose() { return iPose; }
+
+  public void setIPose(Boolean iPose) { this.iPose = iPose; }
+
 
   public ModelTogglesT() {
     this.extendedSpine = null;
@@ -53,6 +58,7 @@ public class ModelTogglesT {
     this.floorClip = null;
     this.skatingCorrection = null;
     this.viveEmulation = null;
+    this.iPose = null;
   }
 }
 
